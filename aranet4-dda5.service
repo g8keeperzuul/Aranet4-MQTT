@@ -1,0 +1,37 @@
+# Copy to /etc/systemd/system/aranet4-dda5.service
+#         ~/.config/systemd/user/
+# $ sudo systemctl daemon-reload  |  systemctl --user daemon-reload
+# $ sudo systemctl enable aranet4-dda5.service  |  systemctl --user enable aranet4-dda5.service
+# $ sudo systemctl is-enabled aranet4-dda5.service  |  systemctl --user is-enabled aranet4-dda5.service
+# $ sudo systemctl start aranet4-dda5.service
+# $ journalctl -f -t Aranet4
+
+[Unit]
+Description=Aranet4 Monitor
+# Requires bluetooth and network to be available
+Requires=bluetooth.target
+Requires=network.target
+After=bluetooth.target
+After=network.target
+#After=bluetooth.service
+StartLimitIntervalSec=0
+
+
+[Service]
+User=homeassistant
+SyslogIdentifier=Aranet4
+#ExecStartPre=
+# so that the script can find its local properties file
+WorkingDirectory=/home/homeassistant/aranet4/bin
+ExecStart=/home/homeassistant/aranet4/bin/query_aranet4.sh EF:BE:2D:BA:DD:A5 aranet4-dda5
+#ExecStartPost=
+#ExecStop=
+#ExecReload=
+# https://www.freedesktop.org/software/systemd/man/systemd.service.html#Options
+Type=simple
+Restart=always
+RestartSec=1
+
+
+[Install]
+WantedBy=multi-user.target
