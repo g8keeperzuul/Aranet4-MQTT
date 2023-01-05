@@ -224,7 +224,7 @@ while [ true ]; do
 		# output likely stacktrace
 		echo "${aranetctl_out}"
 		echo "aranetctl returned ${aranetctl_rc}, try again..."
-		print_success_ratio
+		get_success_ratio
 		sleep 5
 	fi
 done
